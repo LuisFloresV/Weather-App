@@ -1,18 +1,18 @@
 const geoCode = require('./utils/geoCode')
 const foreCast = require('./utils/foreCast')
 
-geoCode(process.argv[2], (error, data) => {
+geoCode(process.argv[2], (error, { longitude, latitude, location } = {}) => {
     if (process.argv[2]) {
         if (error) {
             console.log('Error', error)
         }
         else {
-            foreCast(data.latitude, data.longitude, (error, response) => {
+            foreCast(latitude, longitude, (error, { description, temp, feels }) => {
                 if (error) {
                     console.log('Error', error)
                 }
-                console.log(`${response.country}. ${response.name}`)
-                console.log(`${response.description} It is currently ${response.temp} and feels like ${response.feels}`)
+                console.log(`${location}`)
+                console.log(`${description} It is currently ${temp} and feels like ${feels}`)
             })
         }
     }
